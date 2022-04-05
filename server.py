@@ -32,5 +32,38 @@ def create():
     return redirect('/users')
 
 
+@app.route('/user/edit/<int:id>')
+def edit(id):  # bring in id
+    data = {  # create the data object
+        "id": id
+    }
+    # render the form with all the info
+    return render_template("edit_user.html", user=User.get_one(data))
+
+
+@app.route('/user/show/<int:id>')
+def show(id):  # bring in id
+    data = {  # create the data object
+        "id": id
+    }
+    # render the form with all the info
+    return render_template("show_user.html", user=User.get_one(data))
+
+
+@app.route('/user/update', methods=['POST'])
+def update():
+    User.update(request.form)  # pass in the request.form
+    return redirect('/users')
+
+
+@app.route('/user/destroy/<int:id>')  # delete is a reversed keyword
+def destroy(id):
+    data = {
+        'id': id
+    }
+    User.destroy(data)
+    return redirect('/users')
+
+
 if __name__ == "__main__":
     app.run(debug=True)
